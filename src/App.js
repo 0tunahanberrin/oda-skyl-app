@@ -1,10 +1,15 @@
 import { useEffect, useState } from 'react';
-import sad from './assets/sad.svg';
+import { createRoot } from 'react-dom';
+//import sad from './assets/sad.svg';
 import happy from './assets/happy.svg';
+import './index.css';
 
 const App = () => {
-  const [darkMode, setDarkMode] = useState(JSON.parse(localStorage.getItem('darkMode') || 'light'));
-
+  //const [darkMode, setDarkMode] = useState(JSON.parse(localStorage.getItem('darkMode') || 'light'));
+  const [darkMode, setDarkMode] = useState(() => {
+    const storedMode = localStorage.getItem('darkMode');
+    return storedMode ? JSON.parse(storedMode) : null;
+  });
   useEffect(() => {
     localStorage.setItem('darkMode', darkMode);
     document.querySelector('body').style.backgroundColor = darkMode
@@ -27,9 +32,8 @@ const App = () => {
         >
           <div className='flex w-16 h-8 ring-1 ring-darkBlue dark:ring-white rounded-[1rem] p-[0.2rem]'>
             <div
-              className={`${
-                darkMode ? 'translate-x-8' : null
-              } transition-all duration-300 h-full aspect-square rounded-[50%] bg-darkBlue dark:bg-white`}
+              className={`${darkMode ? 'translate-x-8' : null
+                } transition-all duration-300 h-full aspect-square rounded-[50%] bg-darkBlue dark:bg-white`}
             ></div>
           </div>
         </div>
@@ -48,14 +52,19 @@ const App = () => {
           </div>
         </section>
         <a
-          href='http://google.com'
-          className='absolute bottom-16 sm:bottom-12 py-4 px-20 md:hover:scale-110 transition-transform flex justify-center items-center text-white dark:text-darkBlue bg-darkBlue dark:bg-white'
+          href="https://calendar.google.com/calendar/embed?src=bc6edfd480bce7cd796fdc737fb81ea97053ac5d51208e1cff1f04bb46168f1b%40group.calendar.google.com&ctz=Europe%2FIstanbul"          target="_blank"
+          rel="noopener noreferrer"
+          className="absolute bottom-16 sm:bottom-12 py-4 px-20 md:hover:scale-110 transition-transform flex justify-center items-center text-white dark:text-darkBlue bg-darkBlue dark:bg-white"
         >
           Takvime Git
         </a>
+
       </div>
     </div>
   );
 };
 
 export default App;
+
+const root = createRoot(document.getElementById('root'));
+root.render(<App />);
